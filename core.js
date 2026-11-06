@@ -239,6 +239,7 @@
     };
   }
 
+  ECO.local = localBackend;
   ECO.connect = async function (opts) {
     opts = opts || {};
     const cfg = window.ECO_FIREBASE;

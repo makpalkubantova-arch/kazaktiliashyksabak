@@ -611,6 +611,8 @@ mark sup { font-size: .62em; font-weight: 900; margin-left: 2px; text-decoration
 <script src="core.js"></script>
 <script src="ws-data.js"></script>
 <script>
+window.addEventListener('error', (e) => { const a = document.getElementById('app'); if (a && /Жүктелуде|Байланыс|дайындалуда/.test(a.textContent) && !a.querySelector('.stepper')) a.innerHTML = '<div class="glass" style="padding:20px"><h2>Қате шықты</h2><p class="muted">' + String(e.message).replace(/</g,'&lt;') + '</p><button class="gloss" onclick="location.reload()">Қайта жүктеу</button></div>'; });
+window.addEventListener('unhandledrejection', (e) => { const a = document.getElementById('app'); if (a && /Жүктелуде|Байланыс|дайындалуда/.test(a.textContent) && !a.querySelector('.stepper')) a.innerHTML = '<div class="glass" style="padding:20px"><h2>Қате шықты</h2><p class="muted">' + String(e.reason && e.reason.message || e.reason).replace(/</g,'&lt;') + '</p><button class="gloss" onclick="location.reload()">Қайта жүктеу</button></div>'; });
 (async function () {
   const Q = ECO.QUESTIONS, T = ECO.TEAMS, L = ECO.LETTERS, esc = ECO.esc;
   const app = document.getElementById('app');
@@ -646,26 +648,47 @@ mark sup { font-size: .62em; font-weight: 900; margin-left: 2px; text-decoration
   if (!code) code = newCode();
   try { localStorage.setItem('qaz3live_host_code', code); } catch (e) {}
   let be;
-  try { be = await ECO.connect({ role: 'host', code }); } catch (e) {
-    if (e && e.code === 'busy') { try { localStorage.removeItem('qaz3live_host_code'); } catch (x) {} location.replace('host.html'); return; }
-    app.innerHTML = '<div class="glass" style="padding:20px"><h2>Қосылу мүмкін болмады</h2><p class="muted">Интернетті тексеріп, бетті жаңартыңыз.</p><p class="muted">' + esc(e.message) + '</p></div>'; return; }
   const G = 'games/' + code;
-
   let capsule = null; try { capsule = JSON.parse(localStorage.getItem('qaz3_teams_v1') || 'null'); } catch (e) {}
   const teamNames = (capsule && capsule.names) || T.map((t) => t.name);
-  const existing = await be.get(G + '/meta');
-  if (existing && typeof existing.created === 'number' && be.now() - existing.created > 3 * 3600000 && (existing.host === be.uid || be.demo)) {
-    try { localStorage.removeItem('qaz3live_host_code'); localStorage.removeItem('qaz3live_p2p_' + code); } catch (e) {}
-    location.replace('host.html'); return;
+  const say = (t) => { try { if (!app.querySelector('.stepper')) app.innerHTML = '<p class="muted" style="padding:20px">' + t + '</p>'; } catch (e) {} };
+  const tmo = (p, ms, what) => Promise.race([p, new Promise((_, no) => setTimeout(() => no(new Error(what + ': уақыт бітті')), ms))]);
+  /* дайындық: ойын жазбасын тексеру/құру. 'busy' | 'reload' | 'ok' қайтарады */
+  async function prep(b) {
+    const existing = await tmo(b.get(G + '/meta'), 7000, 'meta оқу');
+    if (existing && typeof existing.created === 'number' && b.now() - existing.created > 3 * 3600000 && (existing.host === b.uid || b.demo)) {
+      try { localStorage.removeItem('qaz3live_host_code'); localStorage.removeItem('qaz3live_p2p_' + code); } catch (e) {}
+      return 'reload';
+    }
+    if (!existing) await tmo(b.set(G + '/meta', { host: b.uid, phase: 'slide', stage: 0, stageTitle: 'Сәлемдесу', stageNote: 'Телефоныңды дайында. Келесі кезеңде QR-код шығады.', stageStart: b.TS, lsAcc: 0, lsRun: null, stAcc: 0, stRun: null, q: -1, created: b.TS, teamNames }), 7000, 'meta жазу');
+    else if (existing.stage === undefined && existing.phase === 'lobby' && existing.host === b.uid) await tmo(b.update(G + '/meta', { phase: 'slide', stage: 0, stageTitle: 'Сәлемдесу', stageNote: '', stageStart: b.TS }), 7000, 'meta жаңарту');
+    else if (existing.host !== b.uid && !b.demo) return 'busy';
+    /* Таймер бетті жаңартқанда өздігінен жүре бермейді: жүріп тұрса, кідіртіледі */
+    const ex = await tmo(b.get(G + '/meta'), 7000, 'meta оқу');
+    if (ex && (typeof ex.lsRun === 'number' || typeof ex.stRun === 'number')) { const n = b.now();
+      await tmo(b.update(G + '/meta', { lsAcc: (ex.lsAcc || 0) + (typeof ex.lsRun === 'number' ? n - ex.lsRun : 0), lsRun: null, stAcc: (ex.stAcc || 0) + (typeof ex.stRun === 'number' ? n - ex.stRun : 0), stRun: null }), 7000, 'таймер'); }
+    return 'ok';
   }
-  if (!existing) await be.set(G + '/meta', { host: be.uid, phase: 'slide', stage: 0, stageTitle: 'Сәлемдесу', stageNote: 'Телефоныңды дайында. Келесі кезеңде QR-код шығады.', stageStart: be.TS, lsAcc: 0, lsRun: null, stAcc: 0, stRun: null, q: -1, created: be.TS, teamNames });
-  else if (existing.stage === undefined && existing.phase === 'lobby' && existing.host === be.uid) await be.update(G + '/meta', { phase: 'slide', stage: 0, stageTitle: 'Сәлемдесу', stageNote: '', stageStart: be.TS });
-  else if (existing.host !== be.uid && !be.demo) { app.innerHTML = '<div class="glass" style="padding:20px"><h2>Бұл код бос емес</h2><p class="muted">Басқа құрылғыда осы кодпен ойын ашылған.</p><button class="gloss" id="nw">Жаңа ойын ашу</button></div>'; $('nw').onclick = () => { try { localStorage.removeItem('qaz3live_host_code'); } catch (e) {} location.href = 'host.html'; }; return; }
-
-  /* Таймер бетті жаңартқанда өздігінен жүре бермейді: жүріп тұрса, кідіртіледі */
-  { const ex = await be.get(G + '/meta');
-    if (ex && (typeof ex.lsRun === 'number' || typeof ex.stRun === 'number')) { const n = be.now();
-      await be.update(G + '/meta', { lsAcc: (ex.lsAcc || 0) + (typeof ex.lsRun === 'number' ? n - ex.lsRun : 0), lsRun: null, stAcc: (ex.stAcc || 0) + (typeof ex.stRun === 'number' ? n - ex.stRun : 0), stRun: null }); } }
+  let res = null;
+  say('Байланыс орнатылуда… (10–15 секунд)');
+  try {
+    be = await tmo(ECO.connect({ role: 'host', code }), 25000, 'байланыс');
+    say('Сабақ дайындалуда…');
+    res = await prep(be);
+  } catch (e) {
+    if (e && e.code === 'busy') { try { localStorage.removeItem('qaz3live_host_code'); } catch (x) {} location.replace('host.html'); return; }
+    try { console.warn('Онлайн байланыс болмады, тақта режимі:', e && e.message); } catch (x) {}
+    be = null;
+  }
+  if (res === 'reload') { location.replace('host.html'); return; }
+  if (res === 'busy') { app.innerHTML = '<div class="glass" style="padding:20px"><h2>Бұл код бос емес</h2><p class="muted">Басқа құрылғыда осы кодпен ойын ашылған.</p><button class="gloss" id="nw">Жаңа ойын ашу</button></div>'; $('nw').onclick = () => { try { localStorage.removeItem('qaz3live_host_code'); } catch (e) {} location.href = 'host.html'; }; return; }
+  if (!be) {
+    /* интернет/сервер жауап бермесе — сабақ тақтада бәрібір жүреді (топтар тақтадағы панельден жауап береді) */
+    be = await ECO.local(); try { be.kind = 'local'; } catch (x) {}
+    try { await prep(be); } catch (e) {}
+    window.__OFFLINE = true;
+    try { const d = document.createElement('div'); d.id = 'offb'; d.textContent = '⚠ Интернет-байланыс жоқ: сабақ тақтада жүреді, телефондар/планшеттер қосылмайды. Бетті жаңартып көріңіз.'; d.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:4px;z-index:9999;background:#fff3cd;color:#7a5200;border:1px solid #f0c36d;border-radius:10px;padding:4px 12px;font-size:13px;box-shadow:0 4px 14px rgba(0,0,0,.12)'; document.body.appendChild(d); setTimeout(() => d.remove(), 15000); } catch (x) {}
+  }
   const joinUrl = new URL('join.html?code=' + code, location.href).href;
   const guestUrl = joinUrl + '&g=1';
   let game = {}; let mounted = ''; let seen = new Set(); let tick = null;
