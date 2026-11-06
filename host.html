@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Ашық сабақ · Қазақ тілі · 3-сынып · Түбір мен қосымша</title>
+<title>Ашық сабақ · Қазақ тілі · 3 «В» сынып · Түбір мен қосымша</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&family=Nunito:wght@400;600;700;800&display=swap">
 <link rel="stylesheet" href="style.css">
 <style>
@@ -587,6 +587,16 @@ mark sup { font-size: .62em; font-weight: 900; margin-left: 2px; text-decoration
 .dl { text-decoration: none; display: inline-flex; } .setg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; } .wsl { display: flex; flex-direction: column; gap: 8px; margin: 8px 0; }
 .wsl .lv { display: flex; gap: 12px; align-items: center; padding: 10px; border-radius: 14px; } .wsl .lv b { flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; color: #fff; font-family: var(--display); font-size: 22px; } .wsl .lv p { margin: 0; font-weight: 700; }
 @media (max-width: 1500px) { .tool small { display: none; } }
+.wsgrid { padding: 14px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; align-content: start; }
+.wscard { border-radius: 16px; padding: 10px; color: #fff; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.wscard b { font-family: var(--display); font-size: clamp(30px, 3vw, 46px); line-height: 1; } .wscard span { font-weight: 900; } .wscard small { font-weight: 700; opacity: .9; }
+.wscard.lA, .ktabs .lA.on { background: linear-gradient(160deg, #5CCB84, #1F7A45); } .wscard.lB, .ktabs .lB.on { background: linear-gradient(160deg, #F7BC5F, #C0661A); } .wscard.lC, .ktabs .lC.on { background: linear-gradient(160deg, #F47C9B, #B5345A); }
+.wstypes { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; } .wstypes span { padding: 4px 10px; border-radius: 999px; background: #F3F8FF; border: 1px solid #CFE3FA; font-weight: 800; font-size: 13px; }
+.wsgrid .row { grid-column: 1 / -1; }
+.keybox, .scorebox { padding: 14px; } .ktabs { display: flex; gap: 6px; margin-bottom: 8px; } .ktabs button { flex: 1; border: 2px solid #E3EAF2; background: #fff; border-radius: 12px; padding: 6px; font: inherit; font-family: var(--display); font-weight: 900; font-size: 18px; cursor: pointer; } .ktabs button.on { color: #fff; border-color: transparent; }
+.keyl { margin: 0; padding-left: 20px; } .keyl li { margin: 4px 0; font-size: clamp(13px, 1.1vw, 16px); } .keyl li b { display: block; color: #2F6FB8; } .kmax { font-weight: 800; margin: 0 0 6px; }
+.srow { display: grid; grid-template-columns: 1.4fr 1fr 1.1fr .6fr .9fr auto; gap: 6px; margin-bottom: 8px; } .srow input, .srow select { font: inherit; font-weight: 800; padding: 7px; border-radius: 10px; border: 2px solid #D5E2EF; min-width: 0; }
+.stbl td, .stbl th { font-size: 14px; } .bulk { margin-top: 8px; } .bulk textarea { width: 100%; font: inherit; border-radius: 10px; border: 2px solid #D5E2EF; padding: 6px; }
 </style>
 </head>
 <body>
@@ -599,6 +609,7 @@ mark sup { font-size: .62em; font-weight: 900; margin-left: 2px; text-decoration
 <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
 <script src="config.js"></script>
 <script src="core.js"></script>
+<script src="ws-data.js"></script>
 <script>
 (async function () {
   const Q = ECO.QUESTIONS, T = ECO.TEAMS, L = ECO.LETTERS, esc = ECO.esc;
@@ -672,13 +683,13 @@ mark sup { font-size: .62em; font-weight: 900; margin-left: 2px; text-decoration
     { ph: 0, id: 'join', kind: 'join', min: 1, short: 'Топ', title: 'Топтар', note: '' },
     { ph: 1, id: 'listen', kind: 'slide', min: 3, short: 'Тыңдалым', title: 'Тыңдалым: «Бір минут»', note: 'ЖИ дауысымен мәтінді тыңда. Мәтін кім туралы?' },
     { ph: 1, id: 'text', kind: 'slide', min: 3, short: 'Оқылым', title: 'Оқылым: мәтіннің негізгі ойы', note: 'Мәтінді оқы. Негізгі ойды анықта.' },
-    { ph: 1, id: 'rule3d', kind: 'slide', min: 4, short: '3D ереже', title: '3D сөз құрастырғыш: ереже', note: 'Қосымша жалғанғанда түбір қалай өзгереді?' },
+    { ph: 1, id: 'rule3d', kind: 'slide', min: 3, short: '3D ереже', title: '3D сөз құрастырғыш: ереже', note: 'Қосымша жалғанғанда түбір қалай өзгереді?' },
     { ph: 1, id: 'speak', kind: 'slide', min: 3, short: 'Айтылым', title: 'Айтылым: ЖИ тыңдайды', note: 'Сөзді дауыстап, анық айт. ЖИ тексереді.' },
     { ph: 1, id: 'move', kind: 'slide', min: 1, short: 'Сергіту', title: 'Сергіту сәті', note: 'Түбір — отырамыз, қосымша — тұрамыз!' },
     { ph: 2, id: 'relay', kind: 'relay', min: 4, short: 'Тақтада', title: 'Тақтадағы эстафета: сөз кластері', note: 'Әр топтан бір оқушы тақтаға шығады.' },
-    { ph: 2, id: 'write', kind: 'slide', min: 5, short: 'Жазылым', title: 'Жазылым: ЖИ редактор', note: '«Уақытты бағала»: 3–4 сөйлем жаз. Паразит сөздерсіз!' },
-    { ph: 2, id: 'r1', kind: 'round', min: 6, short: '1-раунд', title: '1-раунд: Сөз шебері', from: 0, to: 7 },
-    { ph: 3, id: 'r2', kind: 'round', min: 3, short: '2-раунд', title: '2-раунд: Деңгейлік тапсырмалар (А, В, С)', from: 8, to: Q.length - 1 },
+    { ph: 2, id: 'r1', kind: 'round', min: 6, short: 'Раунд', title: 'Топтық раунд: Сөз шебері', from: 0, to: Q.length - 1 },
+    { ph: 2, id: 'ws', kind: 'slide', min: 6, short: 'Жұмыс п.', title: 'Жеке жұмыс: жұмыс парағы (А, В, С · 2 нұсқа)', note: 'Деңгейіңді таңда. Көршіңмен әртүрлі нұсқа. Уақыт — 6 минут.' },
+    { ph: 3, id: 'check', kind: 'slide', min: 3, short: 'Тексеру', title: 'Өзара тексеру және балл', note: 'Жолдасыңмен парақ алмастыр, кілтпен тексер.' },
     { ph: 3, id: 'results', kind: 'results', min: 1, short: 'Нәтиже', title: 'Қорытынды және бағалау', note: 'Нәтижені тақтадан көр.' },
     { ph: 4, id: 'feedback', kind: 'feedback', min: 2, short: 'Пікір', title: 'Кері байланыс', note: '' },
     { ph: 4, id: 'home', kind: 'slide', min: 1, short: 'Үйге', title: 'Үй тапсырмасы', note: 'Деңгейіңді таңда: А, В немесе С.' }
@@ -899,7 +910,7 @@ mark sup { font-size: .62em; font-weight: 900; margin-left: 2px; text-decoration
         '<div class="schoolbar fadein"><span class="crest">№77</span><span><small>Астана қаласы</small><b>Ф. Оңғарсынова атындағы №77 мектеп-гимназия</b></span></div>' +
         '<h1 class="wtitle">' + words.map((w, k) => '<span class="go" style="animation-delay:' + (0.25 + k * 0.28) + 's,' + (1.6 + k * 0.1) + 's">' + w + '</span>').join('') + '</h1>' +
         '<p class="guests fadein" style="animation-delay:1.5s">Құрметті қонақтар, ұстаздар және оқушылар!</p>' +
-        '<div class="topiccard fadein" style="animation-delay:1.9s"><span class="ic">Аа</span><span><small>Қазақ тілі · 3-сынып · 46-сабақ</small><b>Түбір мен қосымшаның жазылуы</b></span></div>' +
+        '<div class="topiccard fadein" style="animation-delay:1.9s"><span class="ic">Аа</span><span><small>Қазақ тілі · 3 «В» сынып · 46-сабақ</small><b>Түбір мен қосымшаның жазылуы</b></span></div>' +
         '<p class="motto fadein" style="animation-delay:2.3s">«Сөз — көңілдің кілті.»</p>' +
         '<div class="wchips fadein" style="animation-delay:2.7s"><span>Оқулық · 89-бет</span><span>40 минут</span><span>3 топ: Түбір · Жұрнақ · Жалғау</span></div>' +
         '<div class="row fadein" style="animation-delay:3s"><button class="gloss" id="nx">Сабақты бастау →</button><button class="plain" id="fs">Толық экран</button></div></div>' +
@@ -933,6 +944,22 @@ mark sup { font-size: .62em; font-weight: 900; margin-left: 2px; text-decoration
         '<div class="split"><div class="glass spkbox"><div class="spkt" id="spkt"></div><div class="spkw" id="spkw"></div><div class="mic" id="mic">🎙</div><p class="spkr" id="spkr">Микрофонды басып, сөзді айт</p>' +
         '<div class="row" style="justify-content:center"><button class="gloss" id="spgo">🎙 Айту</button><button class="plain" id="spok">✓ Дұрыс</button><button class="plain" id="spno">✗ Қате</button><button class="plain" id="spnx">Келесі сөз →</button></div></div>' +
         '<div class="boxp glass"><p class="eyebrow">Топтар ұпайы</p><div id="spsc"></div><div class="aihelp"><span class="bot">🤖</span><div><b>Ақылды көмекші</b><p id="sptip">ЖИ айтылған сөзді мәтінге айналдырып, дұрыс жазылуымен салыстырады. Интернет немесе микрофон болмаса, мұғалім ✓ немесе ✗ басады.</p></div></div></div></div>' +
+        '<div class="ctrl"><button class="gloss" id="nx">Келесі →</button></div>';
+    } else if (s.id === 'ws') {
+      const D = window.WSDATA, ids = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+      h = '<div class="shead glass kidhead"><p class="eyebrow">Жеке жұмыс · жұмыс парағы · деңгейлік, 2 нұсқа</p><h1>Жұмыс парағын орында</h1><p class="lead">Деңгейіңді таңда (А, В, С). Бір партада отырғандар <b>әртүрлі нұсқа</b> алады: 1-нұсқа және 2-нұсқа. Әр дұрыс жауап — 1 балл. Уақыт жоғарыда жүріп тұр.</p>' + progTag('Төрт дағды · саралау · ЖИ редактор') + '</div>' +
+        '<div class="split wsplit"><div class="glass wsgrid">' + ids.map((k) => '<div class="wscard l' + k[0] + '"><b>' + D.LEVELS[k[0]] + '</b><span>' + k[1] + '-нұсқа</span><small>' + D.WS[k].length + ' тапсырма · ' + D.max(k) + ' балл</small></div>').join('') +
+        '<div class="wstypes">' + ['🎧 Тыңдалым', '📖 Оқылым · иә/жоқ', '✍️ Түбір + қосымша', '🔤 Әріп қой', '🧩 Топқа бөл', '🔍 Сөз құрамы', '🛠 Қатесін түзет', '💬 Сөздік қор', '🗣 Таза сөйле', '🌟 Шығарма'].map((x) => '<span>' + x + '</span>').join('') + '</div>' +
+        '<div class="row"><a class="plain dl" href="jumys-paraq.html" target="_blank">📄 Жұмыс парақтарын ашу</a></div></div>' +
+        '<div class="glass wbox"><label class="eyebrow" for="wta">🤖 ЖИ редактор: оқушының шығармасын тексеру</label><textarea id="wta" rows="3" placeholder="Оқушының сөйлемдерін теріңіз…"></textarea>' +
+        '<div class="row"><button class="gloss" id="wgo">🤖 ЖИ тексерсін</button><button class="plain" id="wex">Үлгі мәтін</button><button class="plain" id="wcl">Тазалау</button></div><div class="wout" id="wout"></div><div class="wstat" id="wst"></div></div></div>' +
+        '<div class="ctrl"><button class="gloss" id="nx">Келесі →</button></div>';
+    } else if (s.id === 'check') {
+      const D = window.WSDATA, ids = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+      h = '<div class="shead glass kidhead"><p class="eyebrow">Өзара тексеру · балл қосу</p><h1>Жұмыс парағын тексереміз</h1><p class="lead">Жолдасыңмен парақ алмастыр. Тақтадағы жауап кілтімен тексеріп, әр тапсырмаға балл қой. Мұғалім баллдарды енгізеді, олар топ ұпайына қосылады.</p></div>' +
+        '<div class="split chsplit"><div class="glass keybox"><div class="ktabs">' + ids.map((k, i) => '<button data-kt="' + k + '" class="' + (i ? '' : 'on') + ' l' + k[0] + '">' + D.LEVELS[k[0]] + k[1] + '</button>').join('') + '</div><div id="keyv"></div></div>' +
+        '<div class="glass scorebox"><p class="eyebrow">Баллдарды енгізу</p><div class="srow"><input id="sn" placeholder="Оқушының аты" list="snames"><select id="st">' + [0, 1, 2].map((t) => '<option value="' + t + '">' + tname(t) + '</option>').join('') + '</select><select id="sv">' + ids.map((k) => '<option value="' + k + '">' + D.LEVELS[k[0]] + ' · ' + k[1] + '-нұсқа</option>').join('') + '</select><input id="sp" type="number" min="0" placeholder="балл"><select id="sb"><option>жолдасы</option><option>мұғалім</option><option>өзі</option></select><button class="gloss" id="sadd">Қосу</button></div><datalist id="snames"></datalist>' +
+        '<div id="slist"></div><details class="bulk"><summary>Сынып тізімін енгізу (әр жолға бір оқушы)</summary><textarea id="sbulk" rows="4" placeholder="Әлия С.&#10;Нұрлан Б.&#10;…"></textarea><button class="plain" id="sbadd">Тізімді сақтау</button></details></div></div>' +
         '<div class="ctrl"><button class="gloss" id="nx">Келесі →</button></div>';
     } else if (s.id === 'write') {
       h = '<div class="shead glass kidhead"><p class="eyebrow">Жазылым · ЖИ редактор</p><h1>«Уақытты бағала»: 3–4 сөйлем жаз</h1><p class="lead">Мәтін бойынша өз ойыңды жаз. Қосымша жалғанған сөздерді дұрыс жаз, сөздік сөздерін қолдан, <b>паразит сөздерсіз</b> таза сөйле!</p>' + progTag('Жазылым · сөздік қор · ЖИ редактор') + '</div>' +
@@ -970,6 +997,20 @@ mark sup { font-size: .62em; font-weight: 900; margin-left: 2px; text-decoration
     app.querySelectorAll('[data-rv]').forEach((b) => b.onclick = () => { $('rv' + b.dataset.rv).classList.add('on'); b.remove(); });
     app.querySelectorAll('[data-hw]').forEach((m) => m.onclick = () => { $('hwout').innerHTML = esc(m.textContent) + ' → <b>' + esc(m.dataset.hw) + '</b>'; $('aitip').textContent = m.dataset.hw.startsWith('кітап') ? 'Түбірі — кітап. Қосымша жалғанғанда п дыбысы б-ға айналды: кітап → кітабы(н).' : 'Түбірі — жауап. Қосымша жалғанғанда п дыбысы б-ға айналды: жауап → жауабы.'; m.classList.add('done'); });
     if ($('b3')) render3D(0);
+    if ($('keyv')) { const D = window.WSDATA;
+      const showKey = (k) => { app.querySelectorAll('[data-kt]').forEach((b) => b.classList.toggle('on', b.dataset.kt === k)); $('keyv').innerHTML = '<p class="kmax">' + D.LEVELS[k[0]] + ' деңгей · ' + k[1] + '-нұсқа · барлығы <b>' + D.max(k) + '</b> балл</p><ol class="keyl">' + D.WS[k].map((tk) => '<li><b>' + esc(tk.sk) + ' — ' + D.pts(tk) + ' б.</b><span>' + esc(D.key(tk)) + '</span></li>').join('') + '</ol>'; $('sv').value = k; $('sp').max = D.max(k); $('sp').placeholder = '0–' + D.max(k); ECO.sfx.pop(); };
+      app.querySelectorAll('[data-kt]').forEach((b) => b.onclick = () => showKey(b.dataset.kt));
+      const draw = () => { const w = (game.meta || {}).wsr || {}, names = (game.meta || {}).wsn || {}; const ids = Object.keys(w).sort((a, b) => (w[a].t - w[b].t) || String(w[a].n).localeCompare(w[b].n));
+        $('snames').innerHTML = Object.values(names).map((n) => '<option value="' + esc(n) + '">').join('');
+        $('slist').innerHTML = ids.length ? '<table class="kt stbl"><tr><th>Оқушы</th><th>Топ</th><th>Нұсқа</th><th>Балл</th><th>Тексерген</th><th></th></tr>' + ids.map((id) => { const r = w[id], mx = D.max(r.v), pc = mx ? Math.round(r.p / mx * 100) : 0;
+          return '<tr><td><b>' + esc(r.n) + '</b></td><td><span class="dot" style="background:' + T[r.t].c2 + '"></span>' + tname(r.t) + '</td><td>' + D.LEVELS[r.v[0]] + r.v[1] + '</td><td><b>' + r.p + '</b> / ' + mx + ' <small>(' + pc + '%)</small></td><td>' + esc(r.by || '') + '</td><td><button class="plain sm" data-wd="' + id + '">✕</button></td></tr>'; }).join('') + '</table><p class="muted" style="font-weight:800">Топтарға қосылды: ' + [0, 1, 2].map((t) => tname(t) + ' +' + ECO.wsTeam(game.meta, t)).join(' · ') + ' ұпай</p>' : '<p class="muted" style="font-weight:700">Әзірге балл енгізілген жоқ.</p>';
+        app.querySelectorAll('[data-wd]').forEach((b) => b.onclick = () => { const u = {}; u['wsr/' + b.dataset.wd] = null; be.update(G + '/meta', u); }); };
+      window._wsDraw = draw;
+      $('sadd').onclick = () => { const n = $('sn').value.trim(), p = parseInt($('sp').value, 10), v = $('sv').value, mx = D.max(v); if (!n || isNaN(p)) { ECO.sfx.no(); return; }
+        const u = {}; u['wsr/' + 'w' + Date.now().toString(36)] = { n, t: +$('st').value, v, p: Math.max(0, Math.min(mx, p)), by: $('sb').value }; be.update(G + '/meta', u); $('sn').value = ''; $('sp').value = ''; $('sn').focus(); ECO.sfx.ok(); };
+      $('sbadd').onclick = () => { const L = $('sbulk').value.split('\n').map((x) => x.trim()).filter(Boolean); const u = {}; L.forEach((n, i) => { u['wsn/n' + i] = n; }); be.update(G + '/meta', u); ECO.sfx.pop(); };
+      showKey('A1'); draw(); }
+
     if ($('wgo')) { const run = () => { const v = $('wta').value.trim(); if (!v) { $('wout').innerHTML = '<p class="muted">Алдымен сөйлем жаз.</p>'; $('wst').innerHTML = ''; return; } const r = aiCheck(v);
         $('wout').innerHTML = '<p>' + r.html + '</p>';
         const tips = []; if (r.errs) tips.push('Түбір мен қосымшаның жазылуында ' + r.errs + ' қате бар: ережені еске түсір.'); if (r.par) tips.push(r.par + ' паразит сөз табылды: қазақша баламасын қолдан.'); if (r.sent < 3) tips.push('Тағы ' + (3 - r.sent) + ' сөйлем қос.'); if (r.tg < 2) tips.push('Сөздік сөздерін көбірек қолдан.');
@@ -1237,13 +1278,13 @@ mark sup { font-size: .62em; font-weight: 900; margin-left: 2px; text-decoration
   function toolsBar() { return '<div class="tools">' + TOOLS.map((t) => '<button class="tool" data-tool="' + t[0] + '" title="' + t[2] + '"><span>' + t[1] + '</span><small>' + t[2] + '</small></button>').join('') + '</div>'; }
   function toolPanel(k) {
     const dl = (f, label) => '<a class="gloss dl" href="materialdar/' + f + '?v=1" download>' + label + '</a>';
-    if (k === 'kmzh') return '<h2>Қысқа мерзімді жоспар</h2><p class="muted">Қазақ тілі · 3-сынып · 46-сабақ · «Уақыт» бөлімі · 40 минут</p><table class="kt"><tr><th>Кезең</th><th>Мин</th><th>Не істейміз</th></tr>' +
-      STAGES.map((s, i) => '<tr class="' + (i === curStage() ? 'cur' : '') + '"><td><b>' + (i + 1) + '. ' + esc(s.short) + '</b></td><td>' + s.min + '</td><td>' + esc(s.title) + (s.note ? '<br><small>' + esc(s.note) + '</small>' : '') + '</td></tr>').join('') + '</table><div class="row">' + dl('QMZh-3synyp-46-sabaq.docx', 'ҚМЖ жүктеу (Word)') + '</div>';
+    if (k === 'kmzh') return '<h2>Қысқа мерзімді жоспар</h2><p class="muted">Қазақ тілі · 3 «В» сынып · 46-сабақ · «Уақыт» бөлімі · 40 минут</p><table class="kt"><tr><th>Кезең</th><th>Мин</th><th>Не істейміз</th></tr>' +
+      STAGES.map((s, i) => '<tr class="' + (i === curStage() ? 'cur' : '') + '"><td><b>' + (i + 1) + '. ' + esc(s.short) + '</b></td><td>' + s.min + '</td><td>' + esc(s.title) + (s.note ? '<br><small>' + esc(s.note) + '</small>' : '') + '</td></tr>').join('') + '</table><div class="row">' + dl('QMZh-3V-46-sabaq.docx', 'ҚМЖ жүктеу (Word)') + '</div>';
     if (k === 'crit') return '<h2>Бағалау критерийлері мен дескрипторлар</h2><table class="kt"><tr><th>Критерий</th><th>Дескриптор</th><th>Дағды</th></tr>' +
       [['Мәтінді тыңдап түсінеді', 'тыңдаған мәтін бойынша сұраққа жауап береді; тірек сөздерді атайды', 'Тыңдалым'], ['Мәтіннің тақырыбы мен негізгі ойын анықтайды (3.2.4.1)', 'тақырыпты өз бетінше, негізгі ойды мұғалімнің көмегімен анықтайды', 'Оқылым'], ['Сөзді дұрыс айтады', 'түбірге қосымша жалғанған сөзді анық, дұрыс айтады; паразит сөз қолданбайды', 'Айтылым'], ['Түбірдің өзгерісін сақтап жазады (3.4.1.2)', 'п→б, қ→ғ, к→г өзгерісін және ы, і-нің түсуін сақтап жазады', 'Жазылым'], ['Сөздік қорын қолданады', 'сабақтағы жаңа сөздерді сөйлемде қолданады', 'Жазылым']].map((r) => '<tr><td><b>' + r[0] + '</b></td><td>' + r[1] + '</td><td>' + r[2] + '</td></tr>').join('') +
-      '</table><p><b>Ұпай:</b> дұрыс жауап — 500, жылдамдыққа +500-ге дейін; тақтадағы эстафета — +200; айтылым — +100. <b>Деңгейлер:</b> 85%+ жоғары · 50%+ орта · 50%-дан төмен қолдау қажет.</p>';
+      '</table><p><b>Ұпай:</b> дұрыс жауап — 500, жылдамдыққа +500-ге дейін; тақтадағы эстафета — +200; айтылым — +100; жұмыс парағының әр баллы — топқа +20. <b>Деңгейлер:</b> 85%+ жоғары · 50%+ орта · 50%-дан төмен қолдау қажет.</p>';
     if (k === 'goal') return '<h2>Оқу мақсаттары</h2><p><b>3.4.1.2</b> түбір сөздегі -ы, -і-нің дауысты дыбыстан басталатын қосымша жалғанған кездегі өзгерісін сақтап жазу</p><p><b>3.2.4.1</b> өз бетінше мәтіннің тақырыбын және мұғалімнің көмегімен негізгі ойды анықтау</p><h3>Сабақтың мақсаты</h3><ul><li><b>Барлығы:</b> қосымша жалғанғанда кейбір түбір сөздердің жазылуы өзгеретінін біледі</li><li><b>Көпшілігі:</b> өзгерістерді сақтап жазады, мәтіннің негізгі ойын анықтайды</li><li><b>Кейбірі:</b> паразит сөздерсіз 3–4 сөйлемді мәтін құрайды</li></ul>';
-    if (k === 'ws') return '<h2>Жұмыс парақтары (жеке жұмыс)</h2><div class="wsl"><div class="lv a"><b>А</b><p>Қолдау деңгейі: таңдау, кесте толтыру, сөйлемді аяқтау</p></div><div class="lv b"><b>В</b><p>Орта деңгей: әріп қою, кесте, 3 сөйлем жазу</p></div><div class="lv c"><b>С</b><p>Жоғары деңгей: сұрақ құрастыру, сөз құрамы, 4–5 сөйлемді мәтін</p></div></div><p>Әр парақта 6 тапсырма: тыңдалым, оқылым, жазылым, сөздік қор, «таза сөйле», шағын шығарма және өзін-өзі бағалау.</p><div class="row"><a class="gloss dl" href="jumys-paraq.html" target="_blank">🎨 Интерактивті нұсқа (дыбыспен)</a>' + dl('Zhumys-paraqtary-ABC.pdf', '🖨 Басып шығаруға (PDF)') + dl('Zhumys-paraqtary-ABC.docx', 'Word') + '</div>';
+    if (k === 'ws') return '<h2>Жұмыс парақтары (жеке жұмыс)</h2><div class="wsl"><div class="lv a"><b>А</b><p>Қолдау деңгейі: таңдау, кесте толтыру, сөйлемді аяқтау</p></div><div class="lv b"><b>В</b><p>Орта деңгей: әріп қою, кесте, 3 сөйлем жазу</p></div><div class="lv c"><b>С</b><p>Жоғары деңгей: сұрақ құрастыру, сөз құрамы, 4–5 сөйлемді мәтін</p></div></div><p>3 деңгей × 2 нұсқа. Тапсырма түрлері: тыңдалым, оқылым (иә/жоқ), түбір + қосымша, әріп қою, топқа бөлу, сөз құрамы, қатесін түзету, сөздік қор, таза сөйле, шығарма. Әр дұрыс жауап — 1 балл; «Өзара тексеру» кезеңінде баллдар тақтаға енгізіліп, топ ұпайына қосылады (1 балл = +20).</p><div class="row"><a class="gloss dl" href="jumys-paraq.html" target="_blank">🎨 Интерактивті нұсқа (дыбыспен)</a>' + dl('Zhumys-paraqtary-ABC.pdf', '🖨 Басып шығаруға (PDF)') + dl('Zhauap-kilti.pdf', '🔑 Жауап кілті (PDF)') + '</div>';
     if (k === 'prog') return '<h2>Авторлық бағдарлама</h2><p class="muted">«Тілдік дағдыларын жасанды интеллект көмегімен жетілдіру» элективті курсы · құраст. Молдабекова Г.Ж.</p><table class="kt"><tr><th>Дағды</th><th>ЖИ құралы</th><th>Сабақтағы кезең</th></tr>' +
       [['Тыңдалым', 'ЖИ дауысы — мәтінді қазақша синтездеп оқиды', '4-кезең'], ['Оқылым', 'Ақылды көмекші — сөз құрамын көрсетеді', '5-кезең'], ['Айтылым', 'Сөйлеуді тану — айтылған сөзді тексереді', '7-кезең'], ['Жазылым', 'ЖИ редактор — қате, паразит сөз, сөздік қор', '10-кезең'], ['Бағалау', 'Автоматты бағалау, Excel — электрондық портфолио', '11–13-кезең']].map((r) => '<tr><td><b>' + r[0] + '</b></td><td>' + r[1] + '</td><td>' + r[2] + '</td></tr>').join('') +
       '</table><p><b>Шешілетін мәселелер:</b> жазылымның әлсіздігі, сөздік қордың аздығы, орыс және ағылшын тілінен енген паразит сөздер.</p><p class="muted" style="font-size:13px">Ескерту: сайттағы көмекші мен редактор ережеге негізделген тексеру жасайды; дауыс пен сөйлеуді тану браузердің ЖИ қызметтерін пайдаланады (Edge/Chrome, интернет қажет).</p>';
@@ -1270,7 +1311,7 @@ mark sup { font-size: .62em; font-weight: 900; margin-left: 2px; text-decoration
   function topbar(noNote) {
     if (curStage() >= 0 && STAGES[curStage()].id !== 'join') noNote = true;
     const m = game.meta || {}; const n = Object.keys(game.players || {}).length;
-    return '<div class="top glass"><div class="brand"><span class="live">LIVE</span>' + (be.kind === 'firebase' ? '<span class="pill" title="Деректер Firebase-те сақталады" style="font-size:12px;padding:3px 8px">☁ Firebase</span>' : be.kind === 'p2p' ? '<span class="pill" title="Тікелей байланыс (PeerJS)" style="font-size:12px;padding:3px 8px">⇄ Тікелей</span>' : '') + '<b>Сөз шеберлері</b> <span class="muted" style="font-weight:700;font-size:.7em">Қазақ тілі · 3-сынып · 46-сабақ · №77 мектеп-гимназия</span></div>' +
+    return '<div class="top glass"><div class="brand"><span class="live">LIVE</span>' + (be.kind === 'firebase' ? '<span class="pill" title="Деректер Firebase-те сақталады" style="font-size:12px;padding:3px 8px">☁ Firebase</span>' : be.kind === 'p2p' ? '<span class="pill" title="Тікелей байланыс (PeerJS)" style="font-size:12px;padding:3px 8px">⇄ Тікелей</span>' : '') + '<b>Сөз шеберлері</b> <span class="muted" style="font-weight:700;font-size:.7em">Қазақ тілі · 3 «В» сынып · 46-сабақ</span></div>' +
       toolsBar() + '<span class="pill">Код: <span class="codebox">' + code + '</span></span><span class="pill">Оқушы: ' + n + '</span>' +
       (['question', 'reveal', 'board'].includes(m.phase) && m.q >= 0 ? '<span class="pill">Сұрақ: ' + (m.q + 1) + ' / ' + Q.length + '</span>' : '') + '</div>' +
       (noNote ? '' : be.p2p ? '<div class="demo" style="background:#E6F5EC;border-color:#9ED3B2;color:#165C33">Тікелей байланыс: тіркелу керек емес. Сабақ біткенше осы бетті жаппаңыз, оқушылардың телефондары осы бетке қосылған.</div>' : '') +
@@ -1367,6 +1408,7 @@ mark sup { font-size: .62em; font-weight: 900; margin-left: 2px; text-decoration
     setTimeout(() => { const f = $('flash'); if (f) f.remove(); reveal(); }, 1500);
   }
   function updateQuestion() {
+    if (window._wsDraw && $('slist')) window._wsDraw();
     const a = $('ans'); if (a) a.innerHTML = answeredCards();
     const pd = $('pads'); if (pd) { const h = teamPads(Q[game.meta.q], game.meta.q); if (pd.innerHTML !== h) { pd.innerHTML = h; bindPads(); } }
     const players = game.players || {}; const ans = (game.answers || {})[game.meta.q] || {};
@@ -1445,8 +1487,9 @@ mark sup { font-size: .62em; font-weight: 900; margin-left: 2px; text-decoration
     STAGES.forEach((x, k) => { const ms = lg[k]; tm.push([(k + 1) + '. ' + x.title, x.min, ms ? mmss(ms) : '', ms ? Math.round(ms / 1000) : '', ms ? Math.round(ms / 1000) - x.min * 60 : '']); });
     tm.push(['Барлығы', TOTAL, mmss(lsMs(m)), Math.round(lsMs(m) / 1000), Math.round(lsMs(m) / 1000) - TOTAL * 60]);
     const tr = [['Орын', 'Топ', 'Оқушы саны', 'Орташа ұпай', 'Тақта бонусы', 'Дұрыс жауаптар']].concat(res.teamRows.map((t) => [t.rank, tn(t.i), t.n, t.avg, t.bonus, t.correct]));
-    const info = [['Сабақ', 'Қазақ тілі · 3-сынып · 46-сабақ · Түбір мен қосымшаның жазылуы'], ['Оқу мақсаты', '3.4.1.2 түбір сөздегі -ы, -і-нің дауысты дыбыстан басталатын қосымша жалғанған кездегі өзгерісін сақтап жазу; 3.2.4.1 мәтіннің тақырыбын және негізгі ойды анықтау'], ['Авторлық бағдарлама', 'Тілдік дағдыларын жасанды интеллект көмегімен жетілдіру (Молдабекова Г.Ж.)'], ['Ойын коды', code], ['Басталған уақыты', fmtClock(m.realStart)], ['Нәтиже шыққан уақыты', fmtClock(m.realEnd)], ['Сабақ таймері', mmss(lsMs(m))], ['Жүктелген уақыты', fmtClock(Date.now())], ['Оқушы саны', res.rows.length]];
-    return { 'Оқушылар': st, 'Сұрақтар': qs, 'Топтар': tr, 'Уақыт': tm, 'Ақпарат': info };
+    const info = [['Сабақ', 'Қазақ тілі · 3 «В» сынып · 46-сабақ · Түбір мен қосымшаның жазылуы'], ['Оқу мақсаты', '3.4.1.2 түбір сөздегі -ы, -і-нің дауысты дыбыстан басталатын қосымша жалғанған кездегі өзгерісін сақтап жазу; 3.2.4.1 мәтіннің тақырыбын және негізгі ойды анықтау'], ['Авторлық бағдарлама', 'Тілдік дағдыларын жасанды интеллект көмегімен жетілдіру (Молдабекова Г.Ж.)'], ['Ойын коды', code], ['Басталған уақыты', fmtClock(m.realStart)], ['Нәтиже шыққан уақыты', fmtClock(m.realEnd)], ['Сабақ таймері', mmss(lsMs(m))], ['Жүктелген уақыты', fmtClock(Date.now())], ['Оқушы саны', res.rows.length]];
+    const wsx = [['Оқушы', 'Топ', 'Деңгей · нұсқа', 'Балл', 'Ең көп балл', '%', 'Деңгей', 'Тексерген']].concat(wsRows().map((r) => [r.n, tn(r.t), window.WSDATA.LEVELS[r.v[0]] + ' · ' + r.v[1] + '-нұсқа', r.p, r.mx, r.pc, r.lv, r.by]));
+    return { 'Жұмыс парағы': wsx, 'Топтық раунд': st, 'Сұрақтар': qs, 'Топтар': tr, 'Уақыт': tm, 'Ақпарат': info };
   }
   function loadXLSX() { return new Promise((ok, no) => { if (window.XLSX) return ok(); const sc = document.createElement('script'); sc.src = 'vendor/xlsx.full.min.js'; sc.onload = ok; sc.onerror = no; setTimeout(() => no(new Error('timeout')), 8000); document.head.appendChild(sc); }); }
   async function downloadExcel(btn) {
@@ -1456,7 +1499,7 @@ mark sup { font-size: .62em; font-weight: 900; margin-left: 2px; text-decoration
       Object.keys(sh).forEach((k) => { const ws = XLSX.utils.aoa_to_sheet(sh[k]); ws['!cols'] = sh[k][0].map((_, c) => ({ wch: Math.min(60, Math.max(8, ...sh[k].map((r) => String(r[c] ?? '').length + 2))) })); XLSX.utils.book_append_sheet(wb, ws, k); });
       XLSX.writeFile(wb, name + '.xlsx');
     } catch (e) {
-      const csv = '﻿' + sh['Оқушылар'].map((r) => r.map((v) => '"' + String(v ?? '').replace(/"/g, '""') + '"').join(';')).join('\r\n');
+      const csv = '﻿' + sh['Жұмыс парағы'].map((r) => r.map((v) => '"' + String(v ?? '').replace(/"/g, '""') + '"').join(';')).join('\r\n');
       const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' })); a.download = name + '.csv'; a.click(); }
     if (btn) btn.disabled = false;
   }
@@ -1497,13 +1540,17 @@ mark sup { font-size: .62em; font-weight: 900; margin-left: 2px; text-decoration
     const c = { hi: 0, mid: 0, low: 0 }; res.rows.forEach((r) => { const l = ECO.level(r)[1]; if (c[l] !== undefined) c[l]++; });
     return '<div class="lbcard glass"><p class="eyebrow">Бағалау · деңгейлер</p><div class="fb"><div style="background:var(--good-bg)"><b>' + c.hi + '</b>Жоғары</div><div style="background:#FFF1D6"><b>' + c.mid + '</b>Орта</div><div style="background:var(--bad-bg)"><b>' + c.low + '</b>Қолдау қажет</div></div><p class="muted" style="font-weight:700">Әр оқушы өз нәтижесін, қате сұрақтарын және оқулықтың бетін телефоннан көреді.</p></div>';
   }
+  function wsRows() { const D = window.WSDATA, w = (game.meta || {}).wsr || {}; return Object.values(w).map((r) => { const mx = D.max(r.v), pc = mx ? Math.round(r.p / mx * 100) : 0; return { n: r.n, t: r.t, v: r.v, p: r.p, mx, pc, by: r.by || '', lv: pc >= 85 ? 'Жоғары' : pc >= 50 ? 'Орта' : 'Қолдау қажет' }; }).sort((a, b) => b.pc - a.pc || a.n.localeCompare(b.n)); }
+  function wsBox() { const rows = wsRows(), D = window.WSDATA; if (!rows.length) return '';
+    return '<div class="lbcard glass"><p class="eyebrow">Жұмыс парағы · жеке нәтиже · ' + rows.length + ' оқушы</p><div class="scroll mx"><table class="tbl"><thead><tr><th>Оқушы</th><th>Топ</th><th>Нұсқа</th><th>Балл</th><th>%</th><th>Деңгей</th></tr></thead><tbody>' +
+      rows.map((r) => '<tr><td><b>' + esc(r.n) + '</b></td><td><span class="dot" style="background:' + T[r.t].c2 + '"></span>' + tname(r.t) + '</td><td>' + D.LEVELS[r.v[0]] + r.v[1] + '</td><td class="n"><b>' + r.p + '</b>/' + r.mx + '</td><td class="n">' + r.pc + '%</td><td>' + r.lv + '</td></tr>').join('') + '</tbody></table></div></div>'; }
   function mountEnd() {
     const res = ECO.compute(game); const tr = res.teamRows;
     const order = [tr[1], tr[0], tr[2]];
     app.innerHTML = topbar() + '<div class="glass" style="padding:20px;display:flex;flex-direction:column;gap:16px"><p class="eyebrow" style="text-align:center">Жарыс аяқталды</p><h1 style="text-align:center;font-size:clamp(30px,4vw,56px)">Жеңімпаз: ' + tname(tr[0].i) + '!</h1>' +
       '<div class="podium">' + order.map((t, k) => '<div class="step" style="background:' + grad(t.i) + ';height:' + [190, 260, 140][k] + 'px;animation-delay:' + [.3, .6, 0][k] + 's"><span class="pl">' + t.rank + '</span><span class="wh">' + tname(t.i) + '</span><span class="pt">' + t.avg + ' ұпай</span></div>').join('') + '</div></div>' +
       '<div class="lb"><div style="display:flex;flex-direction:column;gap:14px;min-width:0"><div class="lbcard glass"><p class="eyebrow">Топтар</p>' + teamBars(res) + '</div>' + (curStage() >= 0 ? levelBox(res) : '<div id="fbk">' + feedbackBox() + '</div>') + '</div>' +
-      '<div class="lbcard glass"><p class="eyebrow">Барлық оқушының жеке нәтижесі</p>' + matrixTable(res) + '<div class="row"><button class="gloss" id="xl">Excel-ге жүктеу (.xlsx)</button><button class="plain" id="csv">Кестені көшіру</button><span class="muted" id="cpn" style="font-weight:700"></span></div></div></div>' +
+      wsBox() + '<div class="lbcard glass"><p class="eyebrow">Топтық раунд · нәтиже</p>' + matrixTable(res) + '<div class="row"><button class="gloss" id="xl">Excel-ге жүктеу (.xlsx)</button><button class="plain" id="csv">Кестені көшіру</button><span class="muted" id="cpn" style="font-weight:700"></span></div></div></div>' +
       '<div class="ctrl">' + (curStage() >= 0 ? '<button class="gloss" id="nx">Кері байланыс →</button>' : '') + '<button class="plain" id="nw">Жаңа сабақ</button><button class="plain" id="wipe" style="color:var(--bad)">Сынақ деректерін тазалау</button></div>';
     if ($('nx')) $('nx').onclick = () => goStage(curStage() + 1);
     requestAnimationFrame(() => setTimeout(() => app.querySelectorAll('.tr i').forEach((b) => { b.style.width = b.dataset.w + '%'; }), 80));
@@ -1541,6 +1588,7 @@ mark sup { font-size: .62em; font-weight: 900; margin-left: 2px; text-decoration
     } else {
       if (m.phase === 'lobby') updateLobby();
       else if (m.phase === 'question') updateQuestion();
+      if (window._wsDraw && $('slist')) window._wsDraw();
       else if (m.phase === 'end') { const f = $('fbk'); if (f) f.innerHTML = feedbackBox(); }
       else if (m.phase === 'feedback') updateFeedback();
       else if (m.phase === 'relay') relayScores();
